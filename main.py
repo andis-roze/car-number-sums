@@ -1,5 +1,5 @@
 import json
-from itertools import combinations_with_replacement, product
+from itertools import combinations, combinations_with_replacement, product
 
 
 def check_number_has_enough_digits(numbers, operands):
@@ -66,16 +66,13 @@ def build_expressions(operand_lists):
 
 
 if __name__ == '__main__':
-    car_number = "2345"
+    digits = "012345678"
+    number_len = 4
     target = 10
 
-    try:
-        _ = int(car_number)
-    except ValueError:
-        print("Only integers are allowed!")
-        exit(1)
+    for car_number_tuple in combinations(digits, r=number_len):
+        car_number = "".join(car_number_tuple)
+        exps = build_expressions(get_operands(car_number))
+        solutions = {k: v for k, v in exps.items() if v == target}
 
-    exps = build_expressions(get_operands(car_number))
-    solutions = {k: v for k, v in exps.items() if v == target}
-
-    print(json.dumps(solutions, indent=2))
+        print(f"Number {car_number} has {len(solutions.keys())} solutions")
